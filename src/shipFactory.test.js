@@ -61,7 +61,27 @@ test('When is isSunk function is pass it should change sunk to true is damage eq
     )
 });
 
+test('When isSunk function is passed and damage is less than hit sunk should stay false', () => {
+    const destroyer = new Ship('destroyer', 3)
+    destroyer.hitShip('a');
+    destroyer.hitShip('b');
+    destroyer.isSunk();
 
+
+    expect(destroyer).toEqual(
+        {
+            name: 'destroyer',
+            length: 3,
+            sunk: false,
+            damage: {
+                hit: 2,
+                position: ['a', 'b']
+            },
+            isSunk: expect.any(Function),
+            hitShip: expect.any(Function)
+        }
+    )
+});
 
 
 

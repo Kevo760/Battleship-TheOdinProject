@@ -1,5 +1,3 @@
-import { pick } from "lodash";
-
 
 class Gameboard {
 
@@ -35,25 +33,38 @@ class Gameboard {
 
 
     possiblePlacement(ship, row, column, verticle) {
+
+
         // check verticle placement is true
-        if(verticle) {
+         if(verticle) {
             for(let i = 0; i < ship.length; i++) {
                 // while row placement is taken or invalid return false
+              try {
                 while(this.board[row + i][column] !== 0) {
                     return false
                 }
+              } catch(err) {
+                return false
+              }
+      
             }
             return true
         // If verticle is false 
         } else if(!verticle) {
             for(let i = 0; i < ship.length; i++) {
                 // while column placement is taken or invalid return false
-                while(this.board[row][column + i] !== 0) {
+                try {
+                    while(this.board[row][column + i] !== 0) {
+                        return false
+                    }
+                  } catch(err) {
                     return false
-                }
+                  }
             }
             return true
         }
+
+
     }
 
 
@@ -93,9 +104,44 @@ class Gameboard {
 
 
     checkAllShipsSunk() {
-
+        // pushes true or false on ships
+        const carrier = this.isBoatSunk('carrier');
+        const battleship = this.isBoatSunk('battleship');
+        const cruiser = this.isBoatSunk('cruiser');
+        const submarine = this.isBoatSunk('submarine');
+        const destroyer = this.isBoatSunk('destroyer');
+        
+        // If all ships return sunk then return this function as true
+        if(carrier && battleship && cruiser && submarine && destroyer === true) {
+            return true
+        } else {
+            return false
+        }
     }
 
+
+
+    isBoatSunk(shipName) {
+        // convert board to a variable
+        const array = this.board;
+
+        for(let i = 0; i < array.length; i++) {
+            // find index of the boat based on object name
+            const boatIndex = array[i].findIndex(obj => obj.name === shipName);
+            // If index is not negative one 
+            if(boatIndex !== -1) {
+                // pass boat index that is not negative one and find the boat and add the object to the boat variable
+                const boat = array[boatIndex].find(obj => obj.name === shipName);
+                //if boat is sunk return true
+                if(boat.sunk === true) {
+                    return true
+                } else {
+                    return false
+                }
+            }
+            
+        }
+    }
 
 }
 
