@@ -126,24 +126,23 @@ class Gameboard {
         const array = this.board;
 
         for(let i = 0; i < array.length; i++) {
-            // find index of the boat based on object name
-            const boatIndex = array[i].findIndex(obj => obj.name === shipName);
-            // If index is not negative one 
-            if(boatIndex !== -1) {
-                // pass boat index that is not negative one and find the boat and add the object to the boat variable
-                const boat = array[boatIndex].find(obj => obj.name === shipName);
-                //if boat is sunk return true
-                if(boat.sunk === true) {
-                    return true
-                } else {
-                    return false
+            // pass through array and find object the equals to ships name
+            const boat = array[i].find(obj => obj.name === shipName);
+            //If boat is not undefined grab it
+                if(boat !== undefined) {
+                    // If boat object is sunk is true return true else return false
+                    if(boat.sunk === true) {
+                        return true;
+                    } else {
+                        return false;
+                    }
                 }
             }
             
         }
     }
 
-}
+
 
 
 

@@ -3,34 +3,43 @@ import { Gameboard } from "./gameboardFactory";
 
 
 const createGame = () => {
-const ship1 = new Ship('destroyer', 3);
-const ship2 = new Ship('boat', 2);
+    const game = new Gameboard;
+    const carrier = new Ship('carrier', 5);
+    const battleship = new Ship('battleship', 4);
+    const cruiser = new Ship('cruiser', 3);
+    const submarine  = new Ship('submarine', 3);
+    const  destroyer = new Ship('destroyer', 2);
+    game.placeShip(carrier, 0, 0, false);
+    game.placeShip(battleship, 1, 0, false);
+    game.placeShip(cruiser, 2, 0, false);
+    game.placeShip(submarine, 3, 0, false);
+    game.placeShip(destroyer, 4, 0, false);
 
+    game.receiveAttack(0,0);
+    game.receiveAttack(0,1);
+    game.receiveAttack(0,2);
+    game.receiveAttack(0,3);
+    game.receiveAttack(0,4);
 
-//console.log(ship1)
+    game.receiveAttack(1,0);
+    game.receiveAttack(1,1);
+    game.receiveAttack(1,2);
+    game.receiveAttack(1,3);
 
+    game.receiveAttack(2,0);
+    game.receiveAttack(2,1);
+    game.receiveAttack(2,2);
 
-const array = new Gameboard();
+    game.receiveAttack(3,0);
+    game.receiveAttack(3,1);
+    game.receiveAttack(3,2);
 
-array.placeShip(ship1, 0, 0, true);
-array.placeShip(ship2, 5, 5, false);
+    game.receiveAttack(4,0);
+    game.receiveAttack(4,1);
+    
+    console.log(game)
 
-
-
-
-array.isBoatSunk('boat');
-array.isBoatSunk('destroyer');
-console.log(array.possiblePlacement(ship1, 2, 2, true));
-console.log(array.possiblePlacement(ship1, 9, 9, false))
-
-
-console.log(array);
-
-
-
-
-
-
+    console.log(game.isBoatSunk('battleship'));
 
 };
 
