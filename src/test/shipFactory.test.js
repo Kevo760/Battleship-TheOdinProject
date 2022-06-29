@@ -1,4 +1,4 @@
-import { Ship } from "./shipFactory";
+import { Ship } from "../functions/shipFactory";
 
 test('Test to see if object is being created', () => {
     const destroyer = new Ship('destroyer', 3)

@@ -1,5 +1,5 @@
-import { Gameboard } from "./gameboardFactory";
-import { Ship } from './shipFactory';
+import { Gameboard } from "../functions/gameboardFactory";
+import { Ship } from '../functions/shipFactory';
 
 
 test('VERTICLE position possible placement returns false if placed on a the board where there is not enough space', () => {
@@ -20,7 +20,7 @@ test('VERTICLE position possible placement returns false if there is a ship wher
 test('HORIZONTAL POSITION possible placement returns false if placed on a the board where there is not enough space', () => {
     const game = new Gameboard;
     const battleship = new Ship('battleship', 4);
-    expect(game.possiblePlacement(battleship, 0, 9, false)).toBeFalsy();
+    expect(game.possiblePlacement(battleship, 10, 10, false)).toBeFalsy();
 })
 
 
