@@ -3,8 +3,8 @@ import { Ship } from "./shipFactory";
 
 class Player {
 
-    constructor() {
-        this.name;
+    constructor(name) {
+        this.name = name;
     }
     
     // Access gameboard recieveAttack function
