@@ -73,7 +73,7 @@ class Gameboard {
         const position = [row, column];
         
         // If positionShot is false return true
-        if(this.alreadyShot(position) == false) {
+        if(this.alreadyShot(position) === false) {
 
         // If board selection does not equal 0, pass hitShip and isSunk function on ship and push position on shotsMade
         if(this.board[row][column] !== 0) {
@@ -95,7 +95,13 @@ class Gameboard {
 
 
     alreadyShot(position) {
-        const myArray = this.shotsMade
+        const myArray = this.shotsMade;
+        // true or false staments that finds if the position matches the shots made array
+        return myArray.some(arrays => position.every((e, location) => e === arrays[location]))
+    }
+
+    missedShot(position) {
+        const myArray = this.missedShots;
         // true or false staments that finds if the position matches the shots made array
         return myArray.some(arrays => position.every((e, location) => e === arrays[location]))
     }
@@ -138,7 +144,14 @@ class Gameboard {
             }
             
         }
+
+        resetBoard() {
+            this.board;
+            return this.board = ([...Array(10)].map( () => Array(10).fill(0)))
+        }
+    
     }
+
 
 
 

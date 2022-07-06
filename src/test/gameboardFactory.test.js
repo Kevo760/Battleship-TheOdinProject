@@ -161,3 +161,14 @@ test('checkAllShipsSunk returns true when only all boats are sunk', () => {
 
     expect(game.checkAllShipsSunk()).toBeTruthy();
 })
+
+
+test('missedShot returns true if searching for a position that actually missed', () => {
+    const game = new Gameboard;
+    const battleship = new Ship('battleship', 4);
+    game.placeShip(battleship, 6, 0, true);
+    game.receiveAttack(0,0);
+    const position = [0,0];
+
+    expect(game.missedShot(position)).toBeTruthy();
+})

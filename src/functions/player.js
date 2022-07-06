@@ -19,11 +19,14 @@ class Player {
             const column = this.generateRandomNumber(10);
 
             const attack = board.receiveAttack(row, column);
-
+            // when attack is true return the position
             if(attack === true) {
-                break;
+                const position = [row, column]
+                return position
             }
+            
         }
+        
     }
 
     // Creates the battleship and places them randomly
