@@ -39,9 +39,7 @@ const createTileDiv = (row, column, ship, opponent) => {
     return tile;
 }
 
-const tileAttackClick = () => {
-    
-}
+
 
 
 

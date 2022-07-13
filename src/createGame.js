@@ -4,78 +4,131 @@ import { gameBoardUI } from "./UI/gameboardUI";
 import { createHeaderUI } from "./UI/headerUI";
 import './style.css';
 import { contentUI } from "./UI/contentUI";
-import { stubFalse } from "lodash";
+import { winnerUI } from "./UI/WinnerUI";
+import { startGameUI } from "./UI/startGameUI";
+import { Ship } from "./functions/shipFactory";
+import { createAllShips } from "./game/game";
 
 
 const createGame = () => {
     createHeaderUI('Battleship Lite');
-    contentUI();
-    const game = new Gameboard;
-    const game2 = new Gameboard;
-    const playerOne = new Player('kev');
-    const playerTwo = new Player('mona');
-    playerOne.placeShipsRandomly(game);
-    playerTwo.placeShipsRandomly(game2);
-   
-    gameBoardUI(game, true);
-    gameBoardUI(game2);
- 
 
-    const tiles = document.querySelectorAll('.opponent-tile');
-    tiles.forEach(tile => {
-    
-    
-    tile.addEventListener('click', function(e) {
-        // passes e target to current tile
-       const currentTile = e.target;
-       // passes current tile dataset onto column and row
-       const column = currentTile.dataset.column;
-       const row = currentTile.dataset.row;
+    const playerGame = new Gameboard;
+    const opponentGame = new Gameboard;
 
+
+    const mainPlayer = new Player('You');
+    const opponent = new Player('opponent');
+    const myShips = createAllShips();
+
+
+    startGameUI(playerGame);
+
+    
+
+    let click = 0;
+    let isVerticle = true;
 
     
     
-      
-        // Main player attacks
-            // Pass recieveAttack function on selected row and column
-            game2.receiveAttack(row, column);
-            // Convert row and column into a variable array
-            const position = [row, column];
-            //if missed shot is true
-            if(game2.missedShot(position)) {
-                currentTile.classList.add('miss');
+
+    const tileSelector = (row, column) => {
+        return document.querySelector(`[data-row="${row}"][data-column="${column}"],player-tile`)
+    };
+
+    const clickIt = (e) => {
+        // converts row and column string to numbers
+        let row = parseInt(e.target.dataset.row);
+        let column = parseInt(e.target.dataset.column);
+        // if placeship is true pass the functions below
+        if(playerGame.placeShip(myShips[click], row, column, isVerticle) === true) {
+            // if verticle add has-ship class on tiles vertically
+            if(isVerticle) {
+                for(let i = 0; i < myShips[click].length; i++) {
+                    tileSelector(row + i, column)
+                    .classList.add('place-ship');
+                    const removeListener = tileSelector(row + i, column);
+                    removeListener.removeEventListener('click', clickIt);
+                };
+            // else if its false add has-ship class on tiles horizontally
             } else {
-                currentTile.classList.add('hit');
+                for(let i = 0; i < myShips[click].length; i++) {
+                    tileSelector(row, column + i)
+                    .classList.add('place-ship');
             };
-       
-        // Computer attacks after player selects
-            
-            // random attack array value pass on position2
-            const position2 = playerTwo.randomAttack(game);
-            // converst random attack array into row and column
-            const row2 = position2[0];
-            const column2 = position2[1];
-            // Checks to see if missShot is true
-            if(game.missedShot(position2) ){
-                document.querySelector(`[data-row="${row2}"][data-column="${column2}"],player-tile`)
-                .classList.add('miss');
-            } else {
-                document.querySelector(`[data-row="${row2}"][data-column="${column2}"],player-tile`)
-                .classList.add('hit');
-            };
-            console.log(game);
-            console.log(game2);
-            
-            
-        
-            if(game2.checkAllShipsSunk() === true) {
-                console.log('playerOne Wins')
-            } else if (game.checkAllShipsSunk() === true) {
-                    console.log('playertwo wins!')
+        };
+        // if place ship is true add to click
+        click++;
+        };
+    };
+    
+    
+    const mouseOver = (e) => {
+        // if click is less than 5 add hover class
+        if(click < 5 && isVerticle) {
+         for(let i = 0; i < myShips[click].length; i++) {
+           let row = parseInt(e.target.dataset.row) + i;
+           // prevents adding the hover class on rows over 9
+           if(row < 10) {
+            tileSelector(row, e.target.dataset.column)
+            .classList.add('hover');
+           }
+         }
+        } else if (click < 5 && !isVerticle) {
+            for(let i = 0; i < myShips[click].length; i++) {
+                let column = parseInt(e.target.dataset.column) + i;
+                // prevents adding the hover class on columns over 9
+                if(column < 10) {
+                    tileSelector(e.target.dataset.row, column)
+                    .classList.add('hover');
+                } 
+            }
+        }
+    };
+    
+    const mouseLeave = (e) => {
+        //If click is less than 5 remove hover class
+        if(click < 5 && isVerticle) {
+            for(let i = 0; i < myShips[click].length; i++) {
+                let row = parseInt(e.target.dataset.row) + i;
+                // prevents removing the hover class on rows over 9
+                if(row < 10) {
+                 tileSelector(row, e.target.dataset.column)
+                 .classList.remove('hover');
                 }
-            
-    }, {once : true});
-    })
+            }
+           } else if (click < 5 && !isVerticle) {
+            for(let i = 0; i < myShips[click].length; i++) {
+                let column = parseInt(e.target.dataset.column) + i;
+                // prevents removing the hover class on columns over 9
+                if(column < 10) {
+                    tileSelector(e.target.dataset.row, column)
+                    .classList.remove('hover');
+                }
+            }
+        }
+    };
+
+    const checkBox = (e) => {
+        if(e.target.checked) {
+            return isVerticle = false;
+           
+        } else {
+            return isVerticle = true;
+        }
+    };
+
+
+
+    const startTiles = document.querySelectorAll('.tile');
+    startTiles.forEach(tile => {
+        tile.addEventListener('click', clickIt);
+        tile.addEventListener('mouseover', mouseOver);
+        tile.addEventListener('mouseleave', mouseLeave);
+    });
+
+    const checkbox = document.querySelector("input[type=checkbox]");
+    checkbox.addEventListener('change', checkBox);
 
 
 };

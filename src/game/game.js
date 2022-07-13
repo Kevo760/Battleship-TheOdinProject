@@ -18,7 +18,4 @@ const createAllShips = () => {
     return allShips
 }
 
-const newGame = () => {
-    
-
-}
+export {createAllShips}
