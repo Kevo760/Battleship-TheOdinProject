@@ -3,7 +3,7 @@ class Ship {
         this.name = name;
         this.length = length;
         this.sunk = false;
-        this. damage = {
+        this.damage = {
             hit: 0,
             position: [],
         }

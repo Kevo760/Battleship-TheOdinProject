@@ -6,8 +6,14 @@ function contentUI() {
     return document.body.append(content);
 };
 
+const removeContentUI = () => {
+    const content = document.querySelector('.content');
+
+    return content.remove();
+}
 
 
 
 
-export { contentUI }
+
+export { contentUI, removeContentUI }

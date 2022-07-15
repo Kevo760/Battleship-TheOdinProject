@@ -16,6 +16,39 @@ const createAllShips = () => {
     allShips.push(destroyer);
 
     return allShips
-}
+};
 
-export {createAllShips}
+
+class Controller {
+    constructor() {
+        this.click = 0,
+        this.isVerticle = true
+    }
+
+    getClick() {
+        return this.click;
+    }
+
+    getIsVerticle() {
+        return this.isVerticle;
+    }
+
+    addClick() {
+        return this.click++
+    }
+
+    changeToVerticle() {
+        return this.isVerticle = true;
+    }
+
+    changeToHorizontal() {
+        return this.isVerticle = false;
+    }
+
+    resetValues() {
+        this.click = 0;
+        this.isVerticle = true;
+    }
+};
+
+export {createAllShips, Controller}

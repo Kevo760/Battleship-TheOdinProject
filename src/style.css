@@ -65,8 +65,9 @@ html {
 
 .start-modal {
   width: 35rem;
-  height: 35rem;
+  height: 38rem;
   margin: 8rem auto;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -74,6 +75,13 @@ html {
   background-color: rgba(59, 59, 59, .3);
   border-radius: .5rem;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
 }
 
 .tile {
@@ -107,6 +115,26 @@ html {
 .hover {
   background-color: rgb(59, 59, 59);
 }
+
+.start-game {
+  margin-top: 1rem;
+  padding: 1rem 2rem;
+  font-size: 1.5rem;
+  font-family: inherit;
+  border-radius: .5rem;
+  background-color: aliceblue;
+}
+
+.start-game:hover:enabled {
+  background-color: rgba(59, 59, 59, 2);
+  color: aliceblue;
+}
+
+.start-game:active:enabled {
+  background-color: aliceblue;
+  color: black;
+}
+
 
 
 

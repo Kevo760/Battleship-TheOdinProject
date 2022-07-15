@@ -147,6 +147,8 @@ class Gameboard {
 
         resetBoard() {
             this.board;
+            this.missedShots = [];
+            this.shotsMade = [];
             return this.board = ([...Array(10)].map( () => Array(10).fill(0)))
         }
     

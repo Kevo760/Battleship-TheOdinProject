@@ -19,6 +19,7 @@ const winnerUI = (winnerName) => {
     h1.style.borderRadius = ".5rem";
 
     const btn = document.createElement('button');
+    btn.classList.add('play-again');
     btn.innerText = 'Play Again!';
     btn.style.padding = "1rem 3rem 1rem 3rem";
     btn.style.fontFamily = "inherit";
@@ -50,5 +51,11 @@ const winnerUI = (winnerName) => {
     return document.body.append(modal);
 }
 
+const removeWinnerUI = () =>{
+    const modal = document.querySelector('.winner-modal');
 
-export { winnerUI }
+    return modal.remove()
+};
+
+
+export { winnerUI, removeWinnerUI }

@@ -3,11 +3,11 @@ import { Player } from "./functions/player";
 import { gameBoardUI } from "./UI/gameboardUI";
 import { createHeaderUI } from "./UI/headerUI";
 import './style.css';
-import { contentUI } from "./UI/contentUI";
-import { winnerUI } from "./UI/WinnerUI";
-import { startGameUI } from "./UI/startGameUI";
-import { Ship } from "./functions/shipFactory";
+import { contentUI, removeContentUI } from "./UI/contentUI";
+import { winnerUI, removeWinnerUI } from "./UI/WinnerUI";
+import { startGameUI, removeStartGameUI } from "./UI/startGameUI";
 import { createAllShips } from "./game/game";
+
 
 
 const createGame = () => {
@@ -22,14 +22,32 @@ const createGame = () => {
     const myShips = createAllShips();
 
 
-    startGameUI(playerGame);
+   startGameUI(playerGame);
 
     
 
     let click = 0;
     let isVerticle = true;
 
-    
+    ////////////////////////// FUNCTIONS ///////////////////////////////////
+
+
+    // once run removes startgameUI, reset click, and is verticle value
+    const startGameCheck = () => {
+        removeStartGameUI();
+        click = 0;
+        isVerticle = true;
+
+        opponent.placeShipsRandomly(opponentGame);
+        contentUI();
+        gameBoardUI(opponentGame, false);
+        gameBoardUI(playerGame, true);
+        const tiles = document.querySelectorAll('.opponent-tile');
+        tiles.forEach(tile => {
+        tile.addEventListener('click', gameTurn, {once : true});
+    })
+
+    };
     
 
     const tileSelector = (row, column) => {
@@ -83,6 +101,8 @@ const createGame = () => {
                     .classList.add('hover');
                 } 
             }
+        } else  {
+            startGameCheck();
         }
     };
     
@@ -110,6 +130,7 @@ const createGame = () => {
     };
 
     const checkBox = (e) => {
+        // if e target is check verticle is false, is it is not checked verticle is true
         if(e.target.checked) {
             return isVerticle = false;
            
@@ -118,20 +139,116 @@ const createGame = () => {
         }
     };
 
+    const playAgain = () => {
+        const play = () => {
+    
+            opponentGame.resetBoard();
+            playerGame.resetBoard();
+            removeWinnerUI();
+            startGameUI(playerGame);
+            const startTiles = document.querySelectorAll('.tile');
+            startTiles.forEach(tile => {
+                tile.addEventListener('click', clickIt);
+                tile.addEventListener('mouseover', mouseOver);
+                tile.addEventListener('mouseleave', mouseLeave);
+            });
+            // Handles the checkbox
+            const checkbox = document.querySelector("input[type=checkbox]");
+            checkbox.addEventListener('change', checkBox);
+        };
+    
+    
+        const playAgainBtn = document.querySelector('.play-again');
+        playAgainBtn.addEventListener('click', play);
+    }
 
 
+    const gameTurn = (e) => {
+        // passes e target to current tile
+       const currentTile = e.target;
+       // passes current tile dataset onto column and row
+       const column = currentTile.dataset.column;
+       const row = currentTile.dataset.row;
+
+
+    
+    
+      
+        // Main player attacks
+            // Pass recieveAttack function on selected row and column
+            mainPlayer.attack(opponentGame, row, column);
+           // opponentGame.receiveAttack(row, column);
+            // Convert row and column into a variable array
+            const position = [row, column];
+            //if missed shot is true
+            if(opponentGame.missedShot(position)) {
+                currentTile.classList.add('miss');
+            } else {
+                currentTile.classList.add('hit');
+            };
+       
+        // Computer attacks after player selects
+            
+            // random attack array value pass on position2
+            const position2 = opponent.randomAttack(playerGame);
+            // converst random attack array into row and column
+            const row2 = position2[0];
+            const column2 = position2[1];
+            // Checks to see if missShot is true
+            if(playerGame.missedShot(position2) ){
+                document.querySelector(`[data-row="${row2}"][data-column="${column2}"].player-tile`)
+                .classList.add('miss');
+            } else {
+                document.querySelector(`[data-row="${row2}"][data-column="${column2}"].player-tile`)
+                .classList.add('hit');
+            };
+            
+            
+            if(opponentGame.checkAllShipsSunk() === true) {
+                removeContentUI();
+                winnerUI(mainPlayer.name);
+                playAgain();
+            } else if (playerGame.checkAllShipsSunk() === true) {
+                removeContentUI();
+                winnerUI(opponent.name);
+                playAgain();
+            }
+            
+    };
+
+
+
+   
+
+
+
+
+    /////// EVENT LISTENERS
     const startTiles = document.querySelectorAll('.tile');
     startTiles.forEach(tile => {
         tile.addEventListener('click', clickIt);
         tile.addEventListener('mouseover', mouseOver);
         tile.addEventListener('mouseleave', mouseLeave);
     });
-
+    // Handles the checkbox
     const checkbox = document.querySelector("input[type=checkbox]");
     checkbox.addEventListener('change', checkBox);
 
+    /////// EVENT LISTENERS
+
+
+
+
+
+    ////////////////////////// FUNCTIONS ///////////////////////////////////
+
 
 };
+
+
+
+
+
 
 
 export {createGame}
