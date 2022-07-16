@@ -1,12 +1,13 @@
-import { createGame } from "./createGame";
-import { startGameUI } from "./UI/startGameUI";
-import { verticleTogglerHandler, mouseLeaveHandler, mouseOverHandler, mouseClickHandler } from "./mockUp";
-
 import { Gameboard } from "./functions/gameboardFactory";
 import { Player } from "./functions/player";
 import { createHeaderUI } from "./UI/headerUI";
 import './style.css';
+import { placeShipsPage } from "./game/placeShipFunctions";
 import { createAllShips, Controller } from "./game/game";
+import {startGame} from './game/startGame';
+
+
+
 
 createHeaderUI('Battleship Lite');
 
@@ -21,15 +22,16 @@ const mainShips = createAllShips();
 const controls = new Controller;
 
 
+placeShipsPage(opponentBoard, mainBoard, mainShips, controls);
+startGame(mainBoard, opponentBoard, mainPlayer, opponent, mainShips, controls);
 
 
 
 
-startGameUI(mainBoard);
-verticleTogglerHandler(controls);
-mouseOverHandler(mainShips, controls);
-mouseLeaveHandler(mainShips, controls);
-mouseClickHandler(mainBoard, mainShips, controls);
+
+
+
+
 
 
 

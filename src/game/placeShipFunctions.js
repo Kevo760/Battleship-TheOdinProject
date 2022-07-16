@@ -1,5 +1,4 @@
-import './style.css';
-import { enableStartBtn } from './UI/startGameUI';
+import { enableStartBtn, placeShipUI } from "../UI/placeShipUI";
 
 
 
@@ -69,7 +68,7 @@ const mouseOver = (mainShips, controls, event) => {
             } 
         }
     } else {
-        console.log('test');
+        // if click is 5 or greater enable the start button
         enableStartBtn();
     }
 };
@@ -151,57 +150,14 @@ const mouseLeaveHandler = (mainShips, controls) => {
 
 
 
-const gameTurn = (mainPlayer, opponent, mainBoard, opponentBoard, event) => {
-    // passes e target to current tile
-   const currentTile = event.target;
-   // passes current tile dataset onto column and row
-   const column = currentTile.dataset.column;
-   const row = currentTile.dataset.row;
-
-  
-    // Main player attacks
-        // Pass recieveAttack function on selected row and column
-        mainPlayer.attack(opponentBoard, row, column);
-       // opponentGame.receiveAttack(row, column);
-        // Convert row and column into a variable array
-        const position = [row, column];
-        //if missed shot is true
-        if(opponentBoard.missedShot(position)) {
-            currentTile.classList.add('miss');
-        } else {
-            currentTile.classList.add('hit');
-        };
-   
-    // Computer attacks after player selects
-        
-        // random attack array value pass on position2
-        const position2 = opponent.randomAttack(mainBoard);
-        // converst random attack array into row and column
-        const row2 = position2[0];
-        const column2 = position2[1];
-        // Checks to see if missShot is true
-        if(mainBoard.missedShot(position2) ){
-            document.querySelector(`[data-row="${row2}"][data-column="${column2}"].player-tile`)
-            .classList.add('miss');
-        } else {
-            document.querySelector(`[data-row="${row2}"][data-column="${column2}"].player-tile`)
-            .classList.add('hit');
-        };
-        
-        
-        if(opponentBoard.checkAllShipsSunk() === true) {
-            removeContentUI();
-            winnerUI(mainPlayer.name);
-   
-        } else if (mainBoard.checkAllShipsSunk() === true) {
-            removeContentUI();
-            winnerUI(opponent.name);
-        }
-        
+const placeShipsPage = (opponent, mainBoard, mainShips, controls) => {
+    placeShipUI(opponent);
+    verticleTogglerHandler(controls);
+    mouseClickHandler(mainBoard, mainShips, controls);
+    mouseOverHandler(mainShips, controls);
+    mouseLeaveHandler(mainShips, controls);
 };
 
 
 
-export { verticleTogglerHandler, mouseLeaveHandler, mouseOverHandler, mouseClickHandler }
-
-
+export { verticleTogglerHandler, mouseLeaveHandler, mouseOverHandler, mouseClickHandler, placeShipsPage }

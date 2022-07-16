@@ -37,7 +37,7 @@ const gameBoardUI = (game) => {
 
 
 
-const startGameUI = (game) => {
+const placeShipUI = (game) => {
 
 
     const modal = document.createElement('div');
@@ -77,7 +77,7 @@ const startGameUI = (game) => {
     return document.body.append(modal);
 };
 
-const removeStartGameUI = () => {
+const removePlaceShipUI = () => {
     const modal = document.querySelector('.start-modal');
 
     return modal.remove();
@@ -88,7 +88,13 @@ const enableStartBtn = () => {
     startBtn.disabled = false;
 };
 
+const disableStartBtn = () => {
+    const startBtn = document.querySelector('.start-game');
+    startBtn.disabled = true;
+};
 
 
 
-export { startGameUI, removeStartGameUI , enableStartBtn}
+
+
+export { placeShipUI, removePlaceShipUI , enableStartBtn, disableStartBtn}
