@@ -36,7 +36,7 @@ Users should be able to:
 
 ### Links
 
-- Solution URL: [https://github.com/TheLegend760/Battleship-TheOdinProject]
+- Solution URL: [https://github.com/Kevo760/Battleship-TheOdinProject]
 - Live Site URL: [https://battleship-thelegend760.netlify.app/]
 
 ## My process
